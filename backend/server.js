@@ -23,9 +23,17 @@ app.use(cors({
     credentials: true
 }));
 
-// Security Headers for Google Auth
+const helmet = require('helmet');
+
+// Security Headers
+app.use(helmet());
+
+// Custom COOP for Google Login (Helmet sets it to same-origin by default, we need same-origin-allow-popups)
+app.use(helmet.crossOriginOpenerPolicy({ policy: "same-origin-allow-popups" }));
+
+// Additional Security Headers for Google Auth (if needed, but Helmet covers most)
 app.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    // res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups'); // Handled by Helmet config above
     next();
 });
 app.use(express.json({ limit: '1mb' })); // Allow JSON body parsing with 1MB limit
