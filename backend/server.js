@@ -25,12 +25,14 @@ app.use(cors({
 app.use(express.json()); // Allow JSON body parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('trust proxy', 1); // Trust first proxy (Render/Heroku)
 app.use(session({
     secret: 'secretKey',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set to true if using HTTPS
+        secure: true, // Required for SameSite=None
+        sameSite: 'none', // Required for cross-site (Frontend -> Backend)
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
