@@ -70,7 +70,8 @@ exports.postSiteVisit = async (req, res) => {
         const newSiteVisit = new SiteVisit({
             name,
             phone,
-            city
+            city,
+            user: req.session.user ? req.session.user._id : null
         });
 
         await newSiteVisit.save();
@@ -107,7 +108,8 @@ exports.updateInquiryStatus = async (req, res) => {
 exports.getMyBookings = async (req, res) => {
     try {
         const inquiries = await Inquiry.find({ user: req.session.user._id }).sort({ createdAt: -1 });
-        res.json({ success: true, inquiries });
+        const siteVisits = await SiteVisit.find({ user: req.session.user._id }).sort({ createdAt: -1 });
+        res.json({ success: true, inquiries, siteVisits });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, error: 'Server Error' });
