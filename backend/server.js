@@ -19,7 +19,7 @@ mongoose.connect(mongoURI, {
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // Vite default port
+    origin: ['http://localhost:5173', 'https://backendsp-mbzs.onrender.com'],
     credentials: true
 }));
 app.use(express.json()); // Allow JSON body parsing
