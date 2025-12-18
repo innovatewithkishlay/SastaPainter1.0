@@ -3,14 +3,13 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-require('dotenv').config();
+const config = require('./config');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = config.port;
 
 // Connect to MongoDB
-const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aapkapainter';
-mongoose.connect(mongoURI, {
+mongoose.connect(config.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -19,7 +18,7 @@ mongoose.connect(mongoURI, {
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://backendsp-mbzs.onrender.com', 'https://sastapainter.onrender.com'],
+    origin: config.allowedOrigins,
     credentials: true
 }));
 
@@ -42,15 +41,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 const MongoStore = require('connect-mongo');
 const { requireAuth } = require('./middleware/requireAuth');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = config.env === 'production';
 
 app.set('trust proxy', 1); // Trust first proxy (Render/Heroku)
 app.use(session({
-    secret: 'secretKey',
+    secret: config.jwtSecret, // Using jwtSecret as session secret for simplicity, or add sessionSecret to config
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aapkapainter',
+        mongoUrl: config.mongoURI,
         ttl: 24 * 60 * 60 // 1 day
     }),
     cookie: {
@@ -86,6 +85,17 @@ app.get('/api/check-auth', requireAuth, (req, res) => {
 
 app.get('/', (req, res) => {
     res.send('API is running. Use /api endpoints.');
+});
+
+// Health Check
+app.get('/health', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Server is healthy',
+        timestamp: new Date(),
+        uptime: process.uptime(),
+        env: config.env
+    });
 });
 
 // Error Handler

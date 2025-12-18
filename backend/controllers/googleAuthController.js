@@ -2,10 +2,11 @@ const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const authService = require('../services/authService');
 const sendResponse = require('../utils/responseHandler');
+const config = require('../config');
 
 // Initialize Google Client
 // Using environment variable for security
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(config.googleClientId);
 
 exports.googleLogin = async (req, res, next) => {
     const { token } = req.body;
@@ -20,7 +21,7 @@ exports.googleLogin = async (req, res, next) => {
         // Verify ID Token
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID,
+            audience: config.googleClientId,
         });
         const payload = ticket.getPayload();
 
@@ -80,7 +81,7 @@ exports.googleLogin = async (req, res, next) => {
 
     } catch (error) {
         console.error('Google Auth Error:', error);
-        console.error('Environment Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Set' : 'Not Set');
+        console.error('Environment Client ID:', config.googleClientId ? 'Set' : 'Not Set');
         console.error('Token received:', token ? 'Yes' : 'No');
         // For auth errors, we might want to return 401, but next(error) will default to 500.
         // Let's use sendResponse for specific auth failure here as it was before.
