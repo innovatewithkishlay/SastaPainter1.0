@@ -28,8 +28,8 @@ app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
     next();
 });
-app.use(express.json()); // Allow JSON body parsing
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '1mb' })); // Allow JSON body parsing with 1MB limit
+app.use(express.urlencoded({ extended: true, limit: '1mb' })); // Allow URL-encoded body parsing with 1MB limit
 app.use(express.static(path.join(__dirname, 'public')));
 const MongoStore = require('connect-mongo');
 const { requireAuth } = require('./middleware/requireAuth');
