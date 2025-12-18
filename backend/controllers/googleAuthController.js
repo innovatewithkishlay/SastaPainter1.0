@@ -100,6 +100,8 @@ exports.googleLogin = async (req, res) => {
 
     } catch (error) {
         console.error('Google Auth Error:', error);
-        return res.status(401).json({ success: false, error: 'Invalid token' });
+        console.error('Environment Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Set' : 'Not Set');
+        console.error('Token received:', token ? 'Yes' : 'No');
+        return res.status(401).json({ success: false, error: 'Invalid token', details: error.message });
     }
 };
