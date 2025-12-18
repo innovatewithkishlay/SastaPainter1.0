@@ -1,0 +1,99 @@
+/* src/pages/services/interiorWhyChoose.css */
+
+.why-choose-section {
+    padding: 5rem 0;
+    background-color: #f9fafb;
+    /* Light gray background */
+    width: 100%;
+}
+
+.why-choose-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.why-choose-title {
+    margin-bottom: 3.5rem;
+}
+
+.why-choose-title h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary, #333);
+    margin-bottom: 0.5rem;
+}
+
+.why-choose-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 Columns Desktop */
+    gap: 2rem;
+}
+
+.feature-card {
+    background: #fff;
+    padding: 2.5rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Minimal shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.icon-wrapper {
+    background-color: #fff8e1;
+    /* Light yellow/gold accent bg */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: #ffd700;
+    /* Gold Icon Color */
+    font-size: 1.8rem;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .why-choose-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 Columns Tablets */
+    }
+}
+
+@media (max-width: 600px) {
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+        /* 1 Column Mobile */
+    }
+
+    .why-choose-title h2 {
+        font-size: 1.8rem;
+    }
+}

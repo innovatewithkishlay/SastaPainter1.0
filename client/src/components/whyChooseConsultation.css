@@ -1,0 +1,256 @@
+/* src/components/whyChooseConsultation.css */
+
+/*
+ * Why Choose Consultation - Refined Layout
+ * - Fixes: Removed overflow cropping from image wrapper.
+ * - Desktop: 52% Visual (Image + Floating Cards) / 48% Content grid.
+ * - Mobile: Stacked block layout.
+ */
+
+.wcc-section {
+    position: relative;
+    padding: 3.5rem 1.25rem;
+    background-color: #ffffff;
+    /* overflow: visible; Allow floating elements/blob to exist without hard clip if possible, 
+       but usually we clip the section to prevent scrollbars from blob */
+    overflow: hidden;
+}
+
+.wcc-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Desktop Grid Layout */
+@media (min-width: 1024px) {
+    .wcc-section {
+        padding: 56px 20px;
+    }
+
+    .wcc-container {
+        display: grid;
+        grid-template-columns: 52% 48%;
+        gap: 48px;
+        align-items: center;
+    }
+}
+
+/* =========================================
+   Left Column: Visual Area
+   ========================================= */
+.wcc-visual-area {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    isolation: isolate;
+}
+
+/* Decorative Blob Background */
+.wcc-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    background: radial-gradient(circle at center, #fef3c7 0%, #fffbeb 50%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(40px);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Main Image Wrapper 
+   - FIX: Removed overflow:hidden that caused cropping.
+   - FIX: Removed fixed aspect ratios.
+*/
+.wcc-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 760px;
+    /* Remove border-radius cropping if it cuts off image content */
+    border-radius: 6px;
+    background: transparent;
+    z-index: 1;
+    display: flex;
+    /* Ensure img behaves well */
+}
+
+.wcc-main-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* FIX: Ensure full image visibility */
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+/* Floating Testimonial Cards Container */
+.wcc-testimonials-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Individual Testimonial Card */
+.wcc-testi-card {
+    position: absolute;
+    background: #ffffff;
+    padding: 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(12, 24, 64, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 240px;
+    pointer-events: auto;
+    cursor: default;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.wcc-testi-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.wcc-testi-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.wcc-testi-excerpt {
+    font-size: 0.85rem;
+    color: #334155;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 2px;
+}
+
+.wcc-testi-author {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Mobile: Testimonial Cards Layout */
+@media (max-width: 1023px) {
+    .wcc-testimonials-layer {
+        position: relative;
+        height: auto;
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        pointer-events: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+    }
+
+    .wcc-testimonials-layer::-webkit-scrollbar {
+        display: none;
+    }
+
+    .wcc-testi-card {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        flex-shrink: 0;
+        width: 220px;
+        transform: none !important;
+    }
+}
+
+/* =========================================
+   Right Column: Content Area
+   ========================================= */
+.wcc-content-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    z-index: 2;
+}
+
+.wcc-accent-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #f59e0b;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.wcc-heading {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+@media (min-width: 1280px) {
+    .wcc-heading {
+        font-size: 56px;
+    }
+}
+
+.wcc-paragraph {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #475569;
+    margin-bottom: 2.5rem;
+    max-width: 540px;
+}
+
+.wcc-primary-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem;
+    background-color: #0f172a;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.wcc-primary-cta:hover {
+    background-color: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.wcc-primary-cta:focus-visible {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}

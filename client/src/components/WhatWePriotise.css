@@ -1,0 +1,171 @@
+/* src/components/whyChooseUs.css */
+
+/* 
+ * Layout update: Image Moved Above Text
+ * - Container is now flex-column centered.
+ * - Image is full width (max constrained), object-fit: contain.
+ * - Text content is centered below image.
+ */
+
+.wcu-section {
+    padding: 5rem 1.5rem;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.wcu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center everything horizontally */
+    gap: 3.5rem;
+}
+
+/* 
+   Image Wrapper: Top Section
+   - Centered, restricted max-width for aesthetics
+   - Height auto to fit image
+*/
+.wcu-image-wrapper {
+    width: 100%;
+    max-width: 920px;
+    /* Prevent it from being too huge on ultra-wide screens */
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(12, 24, 64, 0.12);
+    background-color: #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.wcu-img {
+    width: 100%;
+    height: auto;
+    /* Key requirement: Full visibility without crop */
+    object-fit: contain;
+    display: block;
+    border-radius: 20px;
+    will-change: transform;
+}
+
+/* 
+   Content Wrapper: Bottom Section
+   - Text aligned center
+   - Full width available
+*/
+.wcu-content {
+    width: 100%;
+    max-width: 1000px;
+    /* Constrain text width for readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.wcu-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #f59e0b;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.wcu-headline {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.wcu-intro {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #475569;
+    margin-bottom: 3.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Features Grid */
+.wcu-features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    text-align: left;
+    /* Keep card text left-aligned for readability */
+}
+
+@media (min-width: 640px) {
+    .wcu-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .wcu-features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .wcu-headline {
+        font-size: 3rem;
+    }
+}
+
+/* Feature Card */
+.wcu-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+    cursor: default;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.wcu-card:hover {
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+    transform: translateY(-4px);
+}
+
+.wcu-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    background-color: #fffbeb;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: #d97706;
+    font-size: 1.75rem;
+}
+
+.wcu-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+}
+
+.wcu-card-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #64748b;
+}

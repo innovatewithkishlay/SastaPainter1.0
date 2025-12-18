@@ -1,0 +1,146 @@
+/**
+ * Brands Grid Styles
+ * 
+ * Premium card design with glass-like feel and smooth interactions.
+ */
+
+:root {
+    --brand-gap: 32px;
+    --brand-gap-mobile: 20px;
+    --card-radius: 16px;
+    --card-bg: #ffffff;
+    --card-border: 1px solid rgba(0, 0, 0, 0.04);
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.02);
+    --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.04);
+    --focus-outline: 2px solid #2563eb;
+    --transition-cubic: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.brands-section {
+    padding: 6rem 1.5rem;
+    background-color: transparent;
+}
+
+.brands-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.brands-header {
+    margin-bottom: 4rem;
+}
+
+.brands-title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+}
+
+.brands-subtitle {
+    font-size: 1.125rem;
+    color: #6b7280;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.brands-grid {
+    display: grid;
+    grid-auto-rows: 1fr;
+    width: 100%;
+}
+
+/* Desktop: 4 columns */
+@media (min-width: 1200px) {
+    .brands-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--brand-gap);
+    }
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .brands-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--brand-gap);
+    }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 767px) {
+    .brands-grid {
+        grid-template-columns: 1fr;
+        gap: var(--brand-gap-mobile);
+    }
+
+    .brands-title {
+        font-size: 2rem;
+    }
+}
+
+.brand-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    /* 3:2 Aspect Ratio is more balanced for logos than 4:3 */
+    aspect-ratio: 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    cursor: pointer;
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s var(--transition-cubic);
+    overflow: hidden;
+    user-select: none;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.brand-card:active {
+    transform: translateY(-2px);
+    transition-duration: 0.1s;
+}
+
+.brand-card:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+}
+
+.brand-image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Add a subtle vignette or radial gradient if desired, keeping it clean for now */
+}
+
+.brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(100%) opacity(0.8);
+    /* Start subtle/grayscale */
+    transition: filter 0.4s ease, transform 0.4s var(--transition-cubic);
+    will-change: transform, filter;
+    padding: 10px;
+    /* Internal cushion */
+}
+
+/* On hover, bring back color and scale */
+.brand-card:hover .brand-logo {
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.08);
+}

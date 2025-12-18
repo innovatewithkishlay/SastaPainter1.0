@@ -1,0 +1,169 @@
+/* src/pages/services/interiorPaintingProcess.css */
+
+.process-section {
+    padding: 5rem 0;
+    width: 100%;
+    background-color: #fff;
+}
+
+.process-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    text-align: center;
+}
+
+.process-title {
+    margin-bottom: 4rem;
+}
+
+.process-title h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary, #333);
+    margin: 0;
+}
+
+/* Timeline Container */
+.process-timeline {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+}
+
+/* Connector Line (Desktop) */
+.process-line {
+    position: absolute;
+    top: 30px;
+    /* Aligns with middle of number circle */
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #e5e7eb;
+    z-index: 1;
+}
+
+/* Individual Step */
+.process-step {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+/* Step Number */
+.step-number {
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    /* White bg to hide line behind */
+    border: 3px solid #fbbf24;
+    /* Primary/Accent color */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 0 5px #fff;
+    /* Extra whitespace frame */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.process-step:hover .step-number {
+    background-color: #fbbf24;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Step Content */
+.step-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #1a1a1a;
+}
+
+.step-content p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+    .process-timeline {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 2rem;
+        /* Space for vertical line */
+    }
+
+    .process-line {
+        width: 4px;
+        height: 100%;
+        top: 0;
+        left: 3rem;
+        /* Aligns vertically */
+    }
+
+    .process-step {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        margin-bottom: 2.5rem;
+        width: 100%;
+        padding: 0;
+    }
+
+    .step-number {
+        margin-right: 1.5rem;
+        /* Space between number and text */
+        margin-bottom: 0;
+        flex-shrink: 0;
+        /* Prevents shrinking */
+        z-index: 3;
+    }
+
+    .step-content {
+        padding-top: 0.5rem;
+        /* Align text with number visually */
+    }
+}
+
+@media (max-width: 600px) {
+    .process-title h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Adjust vertical line for smaller screens */
+    .process-line {
+        left: 28px;
+        /* Center of 60px circle is 30px, adjusted slightly */
+    }
+
+    .process-timeline {
+        padding-left: 0;
+    }
+
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        border-width: 3px;
+        margin-right: 1rem;
+    }
+
+    .process-line {
+        left: 23px;
+        /* Adjusted for smaller circle (25px center) */
+    }
+}

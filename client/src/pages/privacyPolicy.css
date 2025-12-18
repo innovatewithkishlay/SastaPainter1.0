@@ -1,0 +1,81 @@
+/* src/pages/privacyPolicy.css */
+
+.privacy-page {
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding: 4rem 1rem;
+    color: #334155;
+    /* Slate-700 */
+    font-family: 'Inter', sans-serif;
+}
+
+.privacy-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.privacy-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.privacy-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    /* Slate-900 */
+    margin-bottom: 0.5rem;
+}
+
+.privacy-date {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    /* Slate-400 */
+}
+
+.privacy-content {
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.privacy-section {
+    margin-bottom: 3rem;
+}
+
+.privacy-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    /* Slate-800 */
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.privacy-section p {
+    margin-bottom: 1rem;
+    color: #475569;
+    /* Slate-600 */
+}
+
+.privacy-section ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.privacy-section li {
+    margin-bottom: 0.5rem;
+    color: #475569;
+}
+
+@media (max-width: 768px) {
+    .privacy-header h1 {
+        font-size: 2rem;
+    }
+
+    .privacy-page {
+        padding: 3rem 1rem;
+    }
+}

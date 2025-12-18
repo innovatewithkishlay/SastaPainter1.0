@@ -1,0 +1,126 @@
+/* src/components/howItWorks.css */
+
+/* 
+ * How It Works Section Styling
+ * - Layout: Header Top -> Image Bottom
+ * - Responsive: Full width image on mobile, constrained on desktop
+ * - Updated: Removed card-like styling (borders, shadows) for seamless integration.
+ */
+
+.hiw-section {
+    padding: 5rem 1.5rem;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.hiw-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Header Content */
+.hiw-header {
+    max-width: 800px;
+    margin-bottom: 3rem;
+}
+
+.hiw-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #f59e0b;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.hiw-headline {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.hiw-subheading {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #475569;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Font Sizes */
+@media (min-width: 768px) {
+    .hiw-headline {
+        font-size: 2.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hiw-headline {
+        font-size: 3rem;
+    }
+}
+
+/* 
+   Image Wrapper
+   - Removed: border-radius, box-shadow, background-color, overflow:hidden
+   - Updated: seamless integration, full width within container
+*/
+.hiw-image-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    border: none;
+    max-width: 1100px;
+    position: relative;
+    /* Ensure flex centering if needed, though img is block w-100 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hiw-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    will-change: transform;
+}
+
+/* Optional CTA Button (if used) */
+.hiw-cta-wrapper {
+    margin-top: 3rem;
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background-color: #ffffff;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}

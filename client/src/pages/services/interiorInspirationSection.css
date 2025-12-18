@@ -1,0 +1,173 @@
+/* src/pages/services/interiorInspirationSection.css */
+
+.inspiration-section {
+    padding: 5rem 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.inspiration-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+}
+
+.inspiration-title h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-primary, #333);
+    margin: 0;
+}
+
+.inspiration-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+/* Card Common Styles */
+.inspiration-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 350px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f5f5f5;
+}
+
+.inspiration-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Static Card (1-5) Behavior */
+.inspiration-card.static-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    pointer-events: none;
+}
+
+.card-overlay span {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* CTA Card (6th) Styling */
+.inspiration-card.cta-card {
+    cursor: pointer;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.inspiration-card.cta-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.cta-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4));
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.cta-text {
+    color: #ffd700;
+    /* Gold/Yellow accent */
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.cta-number {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+}
+
+.cta-btn {
+    padding: 0.8rem 1.5rem;
+    background-color: #fff;
+    color: #000;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    /* Ensure pointer on button too */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* CTA Card Hover State */
+.inspiration-card.cta-card:hover {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    transform: scale(1.02);
+}
+
+.inspiration-card.cta-card:hover img {
+    opacity: 0.4;
+    transform: scale(1.05);
+    /* Slight zoom on image */
+}
+
+.inspiration-card.cta-card:hover .cta-btn {
+    background-color: #ffd700;
+    transform: translateY(-2px);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .inspiration-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 Columns Tablets */
+    }
+}
+
+@media (max-width: 600px) {
+    .inspiration-grid {
+        grid-template-columns: 1fr;
+        /* 1 Column Mobile */
+        padding: 0 1rem;
+    }
+
+    .inspiration-title h2 {
+        font-size: 1.5rem;
+    }
+}

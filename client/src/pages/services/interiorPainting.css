@@ -1,0 +1,178 @@
+/* src/pages/services/interiorPainting.css */
+
+/* Page Container */
+.interior-painting-page {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary, #333);
+    overflow-x: hidden;
+}
+
+/* Banner Section */
+.interior-banner {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    /* Desktop */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Left aligned on desktop */
+}
+
+/* Dark Gradient Overlay */
+.interior-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.5) 50%,
+            rgba(0, 0, 0, 0.2) 100%);
+    z-index: 1;
+}
+
+/* Content Container */
+.interior-banner-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    color: #fff;
+}
+
+/* Content Container text base */
+.interior-banner-content {
+    color: #f5f5f4;
+    /* soft warm white instead of pure white */
+}
+
+/* Tag */
+.interior-banner-tag {
+    color: #facc15;
+    /* warm muted gold (less flashy than #fbbf24) */
+}
+
+/* Heading */
+.interior-banner h1 {
+    color: #fafafa;
+    /* slightly off-white, premium look */
+}
+
+/* Subheading */
+.interior-banner p {
+    color: rgba(245, 245, 244, 0.85);
+    /* softer contrast */
+}
+
+/* Tag */
+.interior-banner-tag {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fbbf24;
+    /* Accent color example */
+    margin-bottom: 1rem;
+}
+
+/* Heading */
+.interior-banner h1 {
+    font-size: 2.75rem;
+    /* Reduced from 3.5rem */
+    font-weight: 700;
+    /* Reduced from 800 */
+    line-height: 1.3;
+    margin-bottom: 1.25rem;
+    max-width: 700px;
+    letter-spacing: -0.02em;
+    /* Tighter letter spacing for modern feel */
+}
+
+/* Subheading */
+.interior-banner p {
+    font-size: 1.15rem;
+    /* Slightly refined from 1.25rem */
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    /* More breathing room */
+    max-width: 550px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* CTA Button */
+.banner-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem;
+    /* Wider button */
+    background-color: #fbbf24;
+    color: #0f172a;
+    /* Darker text for contrast */
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    /* Pill shape for modern look */
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.banner-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(251, 191, 36, 0.5);
+    background-color: #f59e0b;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .interior-banner h1 {
+        font-size: 2.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .interior-banner {
+        height: auto;
+        min-height: 60vh;
+        /* Better mobile height */
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 0;
+    }
+
+    .interior-banner-content {
+        padding: 0 1.5rem;
+    }
+
+    .interior-banner h1 {
+        font-size: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .interior-banner p {
+        font-size: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .banner-cta-btn {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}

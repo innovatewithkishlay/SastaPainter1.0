@@ -1,0 +1,203 @@
+.booking-container {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 80vh;
+    background-color: #f8fafc;
+    border-radius: 30px;
+    /* Curvy corners */
+    margin: 2rem 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.booking-left {
+    flex: 1;
+    min-width: 300px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%), url('/images/formimage2.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white !important;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    animation: slideInLeft 0.8s ease-out;
+    /* Animation */
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.booking-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/pattern-bg.svg') opacity(0.1);
+    pointer-events: none;
+}
+
+.booking-left h2 {
+    font-size: 2.8rem;
+    /* Larger text */
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: white !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.booking-left p {
+    font-size: 1.15rem;
+    opacity: 1;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: white !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-list {
+    list-style: none;
+    padding: 0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.1);
+    /* Glass effect */
+    padding: 10px 15px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.benefit-icon {
+    margin-right: 1rem;
+    color: #ffd700;
+    font-size: 1.2rem;
+}
+
+.booking-right {
+    flex: 1;
+    min-width: 300px;
+    padding: 3rem;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+}
+
+.form-header h3 {
+    font-size: 2rem;
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.form-header p {
+    color: #64748b;
+}
+
+.modern-form .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.modern-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 0;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 1rem;
+    background: transparent;
+    transition: border-color 0.3s;
+    outline: none;
+}
+
+.modern-input:focus {
+    border-bottom-color: #000;
+    /* Black focus */
+}
+
+.modern-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+    display: block;
+    font-weight: 600;
+}
+
+.btn-premium {
+    width: 100%;
+    padding: 1.2rem;
+    background: #000000;
+    /* Pure Black as requested */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-premium:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+
+}
+
+.btn-premium:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Success Animation */
+.success-container {
+    text-align: center;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.checkmark-circle {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 50%;
+    background-color: #22c55e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}

@@ -1,0 +1,122 @@
+/* src/components/serviceCards.css */
+/* Updated for polished visuals: specific max-width, better grid, gradient overlay */
+
+.service-cards-section {
+    padding: 3rem 1.5rem 5rem;
+    background-color: #f8fafc;
+}
+
+.service-cards-container {
+    max-width: 1320px;
+    /* Wider container for better breathing room */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.service-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    /* Slightly tighter on mobile */
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 768px) {
+    .service-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Desktop: 4 columns */
+@media (min-width: 1200px) {
+    .service-cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+        /* Generous gutter */
+    }
+}
+
+.service-card-item {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    background-color: #1e293b;
+    /* Dark bg to avoid flashes */
+
+    /* Fixed Aspect Ratio 4:5 */
+    aspect-ratio: 4 / 5;
+    /* Max height constraint to prevent giant cards on large screens */
+    max-height: 420px;
+    margin: 0 auto;
+    /* Center in grid cell if constrained */
+    width: 100%;
+}
+
+.service-card-item:focus-visible {
+    outline: 2px solid #f59e0b;
+    outline-offset: 4px;
+}
+
+.service-card-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 14px;
+    /* Hardware acceleration */
+    transform: translateZ(0);
+    display: block;
+}
+
+/* Updated Overlay: Bottom gradient instead of solid block */
+.service-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+.service-card-item:hover .service-card-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.service-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    z-index: 10;
+    /* Ensure text is above image */
+}
+
+.service-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+}
+
+.service-card-subtitle {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
