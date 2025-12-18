@@ -3,9 +3,10 @@ const router = express.Router();
 const adminController = require('../../controllers/adminController');
 const mainController = require('../../controllers/mainController');
 const { requireAuth, requireAdmin } = require('../../middleware/requireAuth');
+const { adminLimiter } = require('../../middleware/rateLimiter');
 
 // Protected Admin Routes
-router.use(requireAuth, requireAdmin); // Apply JWT middleware to all routes
+router.use(requireAuth, requireAdmin, adminLimiter); // Apply JWT middleware, Admin check, and Rate Limiter
 
 router.get('/stats', adminController.getDashboardStats);
 router.get('/users', adminController.getUsers);

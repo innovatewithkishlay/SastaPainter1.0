@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const mainController = require('../../controllers/mainController');
 const { requireAuth } = require('../../middleware/requireAuth');
+const { userLimiter } = require('../../middleware/rateLimiter');
 
 // Protected User Routes
-router.use(requireAuth); // Apply JWT middleware to all routes in this file
+router.use(requireAuth, userLimiter); // Apply JWT middleware and Rate Limiter to all routes in this file
 
 router.get('/my-bookings', mainController.getMyBookings);
 router.get('/my-bookings/edit/:id', mainController.getEditBooking);
