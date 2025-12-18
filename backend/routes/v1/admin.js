@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../../controllers/adminController');
 const mainController = require('../../controllers/mainController');
-const { isAuthenticated, isAdmin } = require('../../middleware/auth');
+const { requireAuth, requireAdmin } = require('../../middleware/requireAuth');
 
 // Protected Admin Routes
-router.use(isAuthenticated, isAdmin); // Apply middleware to all routes
+router.use(requireAuth, requireAdmin); // Apply JWT middleware to all routes
 
 router.get('/stats', adminController.getDashboardStats);
 router.get('/users', adminController.getUsers);

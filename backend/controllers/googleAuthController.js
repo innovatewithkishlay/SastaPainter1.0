@@ -1,5 +1,6 @@
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+const authService = require('../services/authService');
 
 // Initialize Google Client
 // Using environment variable for security
@@ -32,30 +33,17 @@ exports.googleLogin = async (req, res) => {
 
         if (user) {
             // User exists
-            // If user registered with email/password previously, we can link or merge.
-            // For now, we just update the authProvider if it was local, or just log them in.
-            // Optionally update profile picture if not set
             if (!user.profilePicture) {
                 user.profilePicture = picture;
                 await user.save();
             }
 
-            // (Optional) If you want to enforce that 'local' users can't login via Google without linking, 
-            // you'd check authProvider. But typically, email match is sufficient for convenience.
-
-            // Create session/token (Using existing session logic if applicable, or just returning user)
-            // Assuming express-session is used based on package.json, or simple response for client-side state
-            req.session.user = {
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                isAdmin: user.isAdmin,
-                profilePicture: user.profilePicture
-            };
+            const jwtToken = authService.generateToken(user);
 
             return res.json({
                 success: true,
                 message: 'Login successful',
+                token: jwtToken,
                 user: {
                     _id: user._id,
                     username: user.username,
@@ -77,17 +65,12 @@ exports.googleLogin = async (req, res) => {
 
             await user.save();
 
-            req.session.user = {
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                isAdmin: user.isAdmin,
-                profilePicture: user.profilePicture
-            };
+            const jwtToken = authService.generateToken(user);
 
             return res.json({
                 success: true,
                 message: 'Registration successful',
+                token: jwtToken,
                 user: {
                     _id: user._id,
                     username: user.username,

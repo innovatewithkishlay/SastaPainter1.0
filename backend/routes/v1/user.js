@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mainController = require('../../controllers/mainController');
-const { isAuthenticated } = require('../../middleware/auth');
+const { requireAuth } = require('../../middleware/requireAuth');
 
 // Protected User Routes
-router.use(isAuthenticated); // Apply middleware to all routes in this file
+router.use(requireAuth); // Apply JWT middleware to all routes in this file
 
 router.post('/book', mainController.postBooking);
 router.get('/my-bookings', mainController.getMyBookings);
