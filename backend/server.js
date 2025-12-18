@@ -25,11 +25,17 @@ app.use(cors({
 app.use(express.json()); // Allow JSON body parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+const MongoStore = require('connect-mongo');
+
 app.set('trust proxy', 1); // Trust first proxy (Render/Heroku)
 app.use(session({
     secret: 'secretKey',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aapkapainter',
+        ttl: 24 * 60 * 60 // 1 day
+    }),
     cookie: {
         secure: true, // Always true (Works on HTTPS and Localhost)
         sameSite: 'none', // Always none for cross-origin
