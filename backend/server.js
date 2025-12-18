@@ -27,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 const MongoStore = require('connect-mongo');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.set('trust proxy', 1); // Trust first proxy (Render/Heroku)
 app.use(session({
     secret: 'secretKey',
@@ -37,8 +39,8 @@ app.use(session({
         ttl: 24 * 60 * 60 // 1 day
     }),
     cookie: {
-        secure: true, // Always true (Works on HTTPS and Localhost)
-        sameSite: 'none', // Always none for cross-origin
+        secure: isProduction, // True in Prod (HTTPS), False in Local (HTTP)
+        sameSite: isProduction ? 'none' : 'lax', // None for Cross-Site, Lax for Local
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
