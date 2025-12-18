@@ -80,6 +80,10 @@ app.get('/', (req, res) => {
     res.send('API is running. Use /api endpoints.');
 });
 
+// Error Handler
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
