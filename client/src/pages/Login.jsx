@@ -37,7 +37,10 @@ const Login = () => {
             const res = await api.post('/auth/google', { token });
 
             if (res.data.success) {
-                // 3. Update App State
+                // 3. Store Token
+                localStorage.setItem('token', res.data.token);
+
+                // 4. Update App State
                 setUser(res.data.user);
 
                 // 4. Redirect
@@ -63,6 +66,7 @@ const Login = () => {
             // 1. Attempt Regular Login
             let res = await api.post('/login', formData);
             if (res.data.success) {
+                localStorage.setItem('token', res.data.token);
                 setUser(res.data.user);
 
                 // Route based on role
@@ -78,6 +82,7 @@ const Login = () => {
             try {
                 const adminRes = await api.post('/admin/login', { username: formData.email, password: formData.password });
                 if (adminRes.data.success) {
+                    localStorage.setItem('token', adminRes.data.token);
                     setUser(adminRes.data.user);
                     navigate('/admin/dashboard');
                     return;

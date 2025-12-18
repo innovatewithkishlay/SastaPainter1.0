@@ -22,7 +22,7 @@ const MyBookings = () => {
 
     const fetchData = async () => {
         try {
-            const res = await api.get('/my-bookings', { triggerLoader: true });
+            const res = await api.get('/user/my-bookings', { triggerLoader: true });
             if (res.data.success) {
                 setBookings(res.data.inquiries || []);
                 setSiteVisits(res.data.siteVisits || []);

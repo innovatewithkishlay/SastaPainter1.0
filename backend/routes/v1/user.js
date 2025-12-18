@@ -6,7 +6,6 @@ const { requireAuth } = require('../../middleware/requireAuth');
 // Protected User Routes
 router.use(requireAuth); // Apply JWT middleware to all routes in this file
 
-router.post('/book', mainController.postBooking);
 router.get('/my-bookings', mainController.getMyBookings);
 router.get('/my-bookings/edit/:id', mainController.getEditBooking);
 router.post('/my-bookings/edit/:id', mainController.updateBooking);

@@ -4,11 +4,14 @@ const mainController = require('../../controllers/mainController');
 const authController = require('../../controllers/authController');
 const googleAuthController = require('../../controllers/googleAuthController');
 
+const { checkAuth } = require('../../middleware/requireAuth');
+
 // Public Routes
 router.get('/', mainController.getHome);
 router.get('/services', mainController.getServices);
 router.get('/reviews/public', mainController.getPublicReviews);
-router.post('/site-visit', mainController.postSiteVisit);
+router.post('/site-visit', checkAuth, mainController.postSiteVisit);
+router.post('/book', checkAuth, mainController.postBooking);
 
 // Auth Routes
 router.post('/login', authController.login);

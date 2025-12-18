@@ -205,9 +205,15 @@ const Navbar = () => {
                                             <span className="user-name">{user.username}</span>
                                             <span className="user-email">{user.email}</span>
                                         </div>
-                                        <button className="dropdown-link" onClick={() => handleProfileLinkClick('/my-bookings')}>
-                                            My Bookings
-                                        </button>
+                                        {user.isAdmin ? (
+                                            <button className="dropdown-link" onClick={() => handleProfileLinkClick('/admin/dashboard')}>
+                                                Admin Dashboard
+                                            </button>
+                                        ) : (
+                                            <button className="dropdown-link" onClick={() => handleProfileLinkClick('/my-bookings')}>
+                                                My Bookings
+                                            </button>
+                                        )}
                                         <button
                                             className="dropdown-link logout-btn"
                                             onClick={handleLogout}
@@ -296,9 +302,15 @@ const Navbar = () => {
                                         <div style={{ fontWeight: 700 }}>{user.username}</div>
                                         <div style={{ fontSize: '0.9rem', color: '#64748b' }}>{user.email}</div>
                                     </div>
-                                    <button className="mobile-btn mobile-btn-secondary" onClick={() => handleProfileLinkClick('/my-bookings')}>
-                                        My Bookings
-                                    </button>
+                                    {user.isAdmin ? (
+                                        <button className="mobile-btn mobile-btn-secondary" onClick={() => handleProfileLinkClick('/admin/dashboard')}>
+                                            Admin Dashboard
+                                        </button>
+                                    ) : (
+                                        <button className="mobile-btn mobile-btn-secondary" onClick={() => handleProfileLinkClick('/my-bookings')}>
+                                            My Bookings
+                                        </button>
+                                    )}
                                     <button className="mobile-btn" style={{ color: '#ef4444', border: '1px solid #ef4444', backgroundColor: 'transparent' }} onClick={handleLogout}>
                                         Logout
                                     </button>

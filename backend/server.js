@@ -32,6 +32,7 @@ app.use(express.json()); // Allow JSON body parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 const MongoStore = require('connect-mongo');
+const { requireAuth } = require('./middleware/requireAuth');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -71,12 +72,8 @@ app.use('/api', userRoutes); // This might conflict if paths overlap, but they d
 app.use('/api/admin', adminRoutes);
 
 // Auth Check Endpoint
-app.get('/api/check-auth', (req, res) => {
-    if (req.session.user) {
-        res.json({ isAuthenticated: true, user: req.session.user });
-    } else {
-        res.json({ isAuthenticated: false });
-    }
+app.get('/api/check-auth', requireAuth, (req, res) => {
+    res.json({ isAuthenticated: true, user: req.user });
 });
 
 app.get('/', (req, res) => {

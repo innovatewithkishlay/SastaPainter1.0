@@ -48,7 +48,7 @@ exports.postBooking = async (req, res) => {
             address,
             pincode,
             preferred_date,
-            user: req.session.user ? req.session.user._id : null
+            user: req.user ? req.user.id : null
         });
 
         await newInquiry.save();
@@ -71,7 +71,7 @@ exports.postSiteVisit = async (req, res) => {
             name,
             phone,
             city,
-            user: req.session.user ? req.session.user._id : null
+            user: req.user ? req.user.id : null
         });
 
         await newSiteVisit.save();
@@ -107,8 +107,8 @@ exports.updateInquiryStatus = async (req, res) => {
 // User Dashboard Methods
 exports.getMyBookings = async (req, res) => {
     try {
-        const inquiries = await Inquiry.find({ user: req.session.user._id }).sort({ createdAt: -1 });
-        const siteVisits = await SiteVisit.find({ user: req.session.user._id }).sort({ createdAt: -1 });
+        const inquiries = await Inquiry.find({ user: req.user.id }).sort({ createdAt: -1 });
+        const siteVisits = await SiteVisit.find({ user: req.user.id }).sort({ createdAt: -1 });
         res.json({ success: true, inquiries, siteVisits });
     } catch (err) {
         console.error(err);
@@ -118,7 +118,7 @@ exports.getMyBookings = async (req, res) => {
 
 exports.getEditBooking = async (req, res) => {
     try {
-        const inquiry = await Inquiry.findOne({ _id: req.params.id, user: req.session.user._id });
+        const inquiry = await Inquiry.findOne({ _id: req.params.id, user: req.user.id });
         if (!inquiry) {
             return res.status(404).json({ success: false, error: 'Booking not found' });
         }
@@ -137,7 +137,7 @@ exports.updateBooking = async (req, res) => {
         const { id } = req.params;
         const { city, service_type, message } = req.body;
 
-        const inquiry = await Inquiry.findOne({ _id: id, user: req.session.user._id });
+        const inquiry = await Inquiry.findOne({ _id: id, user: req.user.id });
         if (!inquiry) return res.status(404).json({ success: false, error: 'Booking not found' });
         if (inquiry.status === 'Completed' || inquiry.status === 'Contacted') return res.status(400).json({ success: false, error: 'Cannot edit processing booking' });
 
@@ -168,7 +168,7 @@ exports.updateBooking = async (req, res) => {
 exports.deleteBooking = async (req, res) => {
     try {
         const { id } = req.params;
-        await Inquiry.findOneAndDelete({ _id: id, user: req.session.user._id });
+        await Inquiry.findOneAndDelete({ _id: id, user: req.user.id });
         res.json({ success: true, message: 'Booking deleted' });
     } catch (err) {
         console.error(err);
@@ -180,7 +180,7 @@ exports.submitReview = async (req, res) => {
     try {
         const { inquiryId, rating, comment } = req.body;
         // Check if user is logged in (session based)
-        const userId = req.session.user ? req.session.user._id : null;
+        const userId = req.user ? req.user.id : null;
 
         if (!userId) {
             return res.status(401).json({ success: false, error: 'Unauthorized' });
