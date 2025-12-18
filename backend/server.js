@@ -25,14 +25,16 @@ app.use(cors({
 app.use(express.json()); // Allow JSON body parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.set('trust proxy', 1); // Trust first proxy (Render/Heroku)
 app.use(session({
     secret: 'secretKey',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true, // Required for SameSite=None
-        sameSite: 'none', // Required for cross-site (Frontend -> Backend)
+        secure: isProduction, // True in production (HTTPS), False in dev (HTTP)
+        sameSite: isProduction ? 'none' : 'lax', // None for cross-site in prod, Lax for local
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
