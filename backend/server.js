@@ -22,6 +22,12 @@ app.use(cors({
     origin: ['http://localhost:5173', 'https://backendsp-mbzs.onrender.com', 'https://sastapainter.onrender.com'],
     credentials: true
 }));
+
+// Security Headers for Google Auth
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    next();
+});
 app.use(express.json()); // Allow JSON body parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
