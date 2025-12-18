@@ -53,8 +53,22 @@ app.use(session({
 }));
 
 // Routes
-const indexRoutes = require('./routes/index');
-app.use('/api', indexRoutes); // Prefix all routes with /api for clarity
+// Routes
+const publicRoutes = require('./routes/v1/public');
+const userRoutes = require('./routes/v1/user');
+const adminRoutes = require('./routes/v1/admin');
+
+// Mount v1 Routes
+app.use('/api/v1', publicRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/admin', adminRoutes);
+
+// Backward Compatibility (Alias /api to /api/v1/public for auth/services, but this is tricky with nested routes)
+// Better to just update frontend to use /api/v1.
+// For now, I will also mount them at /api for immediate compatibility while I update frontend in Phase 3.
+app.use('/api', publicRoutes);
+app.use('/api', userRoutes); // This might conflict if paths overlap, but they don't really.
+app.use('/api/admin', adminRoutes);
 
 // Auth Check Endpoint
 app.get('/api/check-auth', (req, res) => {
