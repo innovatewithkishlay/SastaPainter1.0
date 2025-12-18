@@ -59,4 +59,9 @@ const inquirySchema = new mongoose.Schema({
     }
 });
 
+// Indexes for performance
+inquirySchema.index({ user: 1 });
+inquirySchema.index({ status: 1 });
+inquirySchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('Inquiry', inquirySchema);

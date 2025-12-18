@@ -30,4 +30,9 @@ const siteVisitSchema = new mongoose.Schema({
     }
 });
 
+// Indexes for performance
+siteVisitSchema.index({ user: 1 });
+siteVisitSchema.index({ status: 1 });
+siteVisitSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('SiteVisit', siteVisitSchema);
