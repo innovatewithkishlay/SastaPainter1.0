@@ -1,7 +1,8 @@
 const User = require('../models/User');
 const Inquiry = require('../models/Inquiry');
+const sendResponse = require('../utils/responseHandler');
 
-exports.getDashboardStats = async (req, res) => {
+exports.getDashboardStats = async (req, res, next) => {
     try {
         // 1. Total Users
         const totalUsers = await User.countDocuments();
@@ -32,8 +33,7 @@ exports.getDashboardStats = async (req, res) => {
         // 7. Cancelled Bookings
         const cancelledBookings = await Inquiry.countDocuments({ status: 'Cancelled' });
 
-        res.json({
-            success: true,
+        return sendResponse(res, 200, true, 'Dashboard stats fetched', {
             stats: {
                 totalUsers,
                 totalBookings,
@@ -46,12 +46,11 @@ exports.getDashboardStats = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Dashboard Stats Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.getUsers = async (req, res) => {
+exports.getUsers = async (req, res, next) => {
     try {
         const { search, role } = req.query;
         let query = {};
@@ -71,15 +70,14 @@ exports.getUsers = async (req, res) => {
             }
         }
 
-        const users = await User.find(query).select('-password').sort({ createdAt: -1 });
-        res.json({ success: true, users });
+        const users = await User.find(query).select('-password').sort({ createdAt: -1 }).lean();
+        return sendResponse(res, 200, true, 'Users fetched', { users });
     } catch (error) {
-        console.error('Get Users Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.getBookings = async (req, res) => {
+exports.getBookings = async (req, res, next) => {
     try {
         const { status, search } = req.query;
         let query = {};
@@ -96,43 +94,41 @@ exports.getBookings = async (req, res) => {
             query.email = { $regex: search, $options: 'i' };
         }
 
-        const inquiries = await Inquiry.find(query).sort({ createdAt: -1 });
-        res.json({ success: true, inquiries });
+        const inquiries = await Inquiry.find(query).sort({ createdAt: -1 }).lean();
+        return sendResponse(res, 200, true, 'Bookings fetched', { inquiries });
     } catch (error) {
-        console.error('Get Bookings Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res, next) => {
     try {
         const userId = req.params.id;
         const user = await User.findById(userId);
 
         if (!user) {
-            return res.status(404).json({ success: false, error: 'User not found' });
+            return sendResponse(res, 404, false, 'User not found');
         }
 
         if (user.isAdmin) {
-            return res.status(403).json({ success: false, error: 'Cannot delete admin users' });
+            return sendResponse(res, 403, false, 'Cannot delete admin users');
         }
 
         await User.findByIdAndDelete(userId);
-        res.json({ success: true, message: 'User deleted successfully' });
+        return sendResponse(res, 200, true, 'User deleted successfully');
     } catch (error) {
-        console.error('Delete User Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.updateBookingStatus = async (req, res) => {
+exports.updateBookingStatus = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
 
         const validStatuses = ['Pending', 'Contacted', 'Scheduled', 'In_Progress', 'Inspection_Done', 'Completed', 'Cancelled'];
         if (!validStatuses.includes(status)) {
-            return res.status(400).json({ success: false, error: 'Invalid status' });
+            return sendResponse(res, 400, false, 'Invalid status');
         }
 
         const booking = await Inquiry.findByIdAndUpdate(
@@ -150,24 +146,23 @@ exports.updateBookingStatus = async (req, res) => {
         );
 
         if (!booking) {
-            return res.status(404).json({ success: false, error: 'Booking not found' });
+            return sendResponse(res, 404, false, 'Booking not found');
         }
 
-        res.json({ success: true, booking });
+        return sendResponse(res, 200, true, 'Booking status updated', { booking });
     } catch (error) {
-        console.error('Update Booking Status Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.updateSiteVisitStatus = async (req, res) => {
+exports.updateSiteVisitStatus = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
 
         const validStatuses = ['Pending', 'Confirmed', 'Scheduled', 'Inspection_Done', 'Completed', 'Cancelled'];
         if (!validStatuses.includes(status)) {
-            return res.status(400).json({ success: false, error: 'Invalid status' });
+            return sendResponse(res, 400, false, 'Invalid status');
         }
 
         const siteVisit = await require('../models/SiteVisit').findByIdAndUpdate(
@@ -177,40 +172,37 @@ exports.updateSiteVisitStatus = async (req, res) => {
         );
 
         if (!siteVisit) {
-            return res.status(404).json({ success: false, error: 'Site visit request not found' });
+            return sendResponse(res, 404, false, 'Site visit request not found');
         }
 
-        res.json({ success: true, siteVisit });
+        return sendResponse(res, 200, true, 'Site visit status updated', { siteVisit });
     } catch (error) {
-        console.error('Update Site Visit Status Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.getSiteVisits = async (req, res) => {
+exports.getSiteVisits = async (req, res, next) => {
     try {
         const SiteVisit = require('../models/SiteVisit');
-        const siteVisits = await SiteVisit.find().sort({ createdAt: -1 });
-        res.json({ success: true, siteVisits });
+        const siteVisits = await SiteVisit.find().sort({ createdAt: -1 }).lean();
+        return sendResponse(res, 200, true, 'Site visits fetched', { siteVisits });
     } catch (error) {
-        console.error('Get Site Visits Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
 // --- Painter Management ---
 
-exports.getPainters = async (req, res) => {
+exports.getPainters = async (req, res, next) => {
     try {
-        const painters = await require('../models/Painter').find().sort({ createdAt: -1 });
-        res.json({ success: true, painters });
+        const painters = await require('../models/Painter').find().sort({ createdAt: -1 }).lean();
+        return sendResponse(res, 200, true, 'Painters fetched', { painters });
     } catch (error) {
-        console.error('Get Painters Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.addPainter = async (req, res) => {
+exports.addPainter = async (req, res, next) => {
     try {
         const { name, phone, specialization, experience, address, salary } = req.body;
         const Painter = require('../models/Painter');
@@ -218,7 +210,7 @@ exports.addPainter = async (req, res) => {
         // Check for duplicates
         const existing = await Painter.findOne({ phone });
         if (existing) {
-            return res.status(400).json({ success: false, error: 'Painter with this phone already exists' });
+            return sendResponse(res, 400, false, 'Painter with this phone already exists');
         }
 
         const newPainter = await Painter.create({
@@ -230,25 +222,23 @@ exports.addPainter = async (req, res) => {
             salary
         });
 
-        res.status(201).json({ success: true, painter: newPainter });
+        return sendResponse(res, 201, true, 'Painter added successfully', { painter: newPainter });
     } catch (error) {
-        console.error('Add Painter Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.deletePainter = async (req, res) => {
+exports.deletePainter = async (req, res, next) => {
     try {
         const { id } = req.params;
         await require('../models/Painter').findByIdAndDelete(id);
-        res.json({ success: true, message: 'Painter deleted successfully' });
+        return sendResponse(res, 200, true, 'Painter deleted successfully');
     } catch (error) {
-        console.error('Delete Painter Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.assignPainter = async (req, res) => {
+exports.assignPainter = async (req, res, next) => {
     try {
         const { id } = req.params; // Inquiry ID
         const { painterId } = req.body;
@@ -262,9 +252,8 @@ exports.assignPainter = async (req, res) => {
         // Optional: Update Painter's current_bookings
         // await require('../models/Painter').findByIdAndUpdate(painterId, { $push: { current_bookings: id } });
 
-        res.json({ success: true, booking });
+        return sendResponse(res, 200, true, 'Painter assigned successfully', { booking });
     } catch (error) {
-        console.error('Assign Painter Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };

@@ -1,41 +1,40 @@
 const Service = require('../models/Service');
 const Inquiry = require('../models/Inquiry');
+const sendResponse = require('../utils/responseHandler');
 
-exports.getHome = async (req, res) => {
+exports.getHome = async (req, res, next) => {
     try {
         // Just return services logic, frontend handles redirection if admin
-        const services = await Service.find({}).limit(6);
-        res.json({ success: true, services });
+        const services = await Service.find({}).limit(6).lean();
+        return sendResponse(res, 200, true, 'Home data fetched', { services });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.getServices = async (req, res) => {
+exports.getServices = async (req, res, next) => {
     try {
-        const services = await Service.find({});
-        res.json({ success: true, services });
+        const services = await Service.find({}).lean();
+        return sendResponse(res, 200, true, 'Services fetched', { services });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Error fetching services' });
+        next(err);
     }
 };
 
 const SiteVisit = require('../models/SiteVisit'); // Import the new model
 
-exports.postBooking = async (req, res) => {
+exports.postBooking = async (req, res, next) => {
     try {
         const { name, phone, email, city, service_type, message, address, pincode, preferred_date } = req.body;
 
         // Basic Validation
         if (!['Delhi', 'Noida'].includes(city)) {
-            return res.status(400).json({ success: false, error: 'Service available only in Delhi and Noida.' });
+            return sendResponse(res, 400, false, 'Service available only in Delhi and Noida.');
         }
 
         // Pincode validation (Basic)
         if (!/^\d{6}$/.test(pincode)) {
-            return res.status(400).json({ success: false, error: 'Invalid Pincode. It must be 6 digits.' });
+            return sendResponse(res, 400, false, 'Invalid Pincode. It must be 6 digits.');
         }
 
         const newInquiry = new Inquiry({
@@ -52,19 +51,18 @@ exports.postBooking = async (req, res) => {
         });
 
         await newInquiry.save();
-        res.json({ success: true, message: 'Booking submitted successfully' });
+        return sendResponse(res, 201, true, 'Booking submitted successfully');
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.postSiteVisit = async (req, res) => {
+exports.postSiteVisit = async (req, res, next) => {
     try {
         const { name, phone, city } = req.body;
 
         if (!name || !phone || !city) {
-            return res.status(400).json({ success: false, error: 'Please fill in all fields.' });
+            return sendResponse(res, 400, false, 'Please fill in all fields.');
         }
 
         const newSiteVisit = new SiteVisit({
@@ -75,71 +73,66 @@ exports.postSiteVisit = async (req, res) => {
         });
 
         await newSiteVisit.save();
-        res.json({ success: true, message: 'Site Visit Booked Successfully!' });
+        return sendResponse(res, 201, true, 'Site Visit Booked Successfully!');
     } catch (err) {
-        console.error('Site Visit Error:', err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.getInquiries = async (req, res) => {
+exports.getInquiries = async (req, res, next) => {
     try {
-        const inquiries = await Inquiry.find({}).sort({ createdAt: -1 });
-        res.json({ success: true, inquiries });
+        const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).lean();
+        return sendResponse(res, 200, true, 'Inquiries fetched', { inquiries });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.updateInquiryStatus = async (req, res) => {
+exports.updateInquiryStatus = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
         await Inquiry.findByIdAndUpdate(id, { status });
-        res.json({ success: true, message: 'Inquiry status updated' });
+        return sendResponse(res, 200, true, 'Inquiry status updated');
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
 // User Dashboard Methods
-exports.getMyBookings = async (req, res) => {
+exports.getMyBookings = async (req, res, next) => {
     try {
-        const inquiries = await Inquiry.find({ user: req.user.id }).sort({ createdAt: -1 });
-        const siteVisits = await SiteVisit.find({ user: req.user.id }).sort({ createdAt: -1 });
-        res.json({ success: true, inquiries, siteVisits });
+        const inquiries = await Inquiry.find({ user: req.user.id }).sort({ createdAt: -1 }).lean();
+        const siteVisits = await SiteVisit.find({ user: req.user.id }).sort({ createdAt: -1 }).lean();
+        return sendResponse(res, 200, true, 'User bookings fetched', { inquiries, siteVisits });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.getEditBooking = async (req, res) => {
+exports.getEditBooking = async (req, res, next) => {
     try {
-        const inquiry = await Inquiry.findOne({ _id: req.params.id, user: req.user.id });
+        const inquiry = await Inquiry.findOne({ _id: req.params.id, user: req.user.id }).lean();
         if (!inquiry) {
-            return res.status(404).json({ success: false, error: 'Booking not found' });
+            return sendResponse(res, 404, false, 'Booking not found');
         }
         if (inquiry.status === 'Completed' || inquiry.status === 'Contacted') {
-            return res.status(400).json({ success: false, error: 'Cannot edit bookings that are Completed or Contacted.' });
+            return sendResponse(res, 400, false, 'Cannot edit bookings that are Completed or Contacted.');
         }
-        res.json({ success: true, inquiry });
+        return sendResponse(res, 200, true, 'Booking details fetched', { inquiry });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.updateBooking = async (req, res) => {
+exports.updateBooking = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { city, service_type, message } = req.body;
 
         const inquiry = await Inquiry.findOne({ _id: id, user: req.user.id });
-        if (!inquiry) return res.status(404).json({ success: false, error: 'Booking not found' });
-        if (inquiry.status === 'Completed' || inquiry.status === 'Contacted') return res.status(400).json({ success: false, error: 'Cannot edit processing booking' });
+        if (!inquiry) return sendResponse(res, 404, false, 'Booking not found');
+        if (inquiry.status === 'Completed' || inquiry.status === 'Contacted') return sendResponse(res, 400, false, 'Cannot edit processing booking');
 
         const changes = {};
         if (inquiry.city !== city) changes.city = inquiry.city;
@@ -158,32 +151,30 @@ exports.updateBooking = async (req, res) => {
         inquiry.message = message;
         await inquiry.save();
 
-        res.json({ success: true, message: 'Booking updated' });
+        return sendResponse(res, 200, true, 'Booking updated');
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.deleteBooking = async (req, res) => {
+exports.deleteBooking = async (req, res, next) => {
     try {
         const { id } = req.params;
         await Inquiry.findOneAndDelete({ _id: id, user: req.user.id });
-        res.json({ success: true, message: 'Booking deleted' });
+        return sendResponse(res, 200, true, 'Booking deleted');
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
-exports.submitReview = async (req, res) => {
+exports.submitReview = async (req, res, next) => {
     try {
         const { inquiryId, rating, comment } = req.body;
         // Check if user is logged in (session based)
         const userId = req.user ? req.user.id : null;
 
         if (!userId) {
-            return res.status(401).json({ success: false, error: 'Unauthorized' });
+            return sendResponse(res, 401, false, 'Unauthorized');
         }
 
         // Verify booking ownership and status
@@ -191,18 +182,18 @@ exports.submitReview = async (req, res) => {
         const booking = await Inquiry.findOne({ _id: inquiryId, user: userId });
 
         if (!booking) {
-            return res.status(404).json({ success: false, error: 'Booking not found' });
+            return sendResponse(res, 404, false, 'Booking not found');
         }
 
         if (booking.status !== 'Completed') {
-            return res.status(400).json({ success: false, error: 'Can only review completed bookings' });
+            return sendResponse(res, 400, false, 'Can only review completed bookings');
         }
 
         // Check if already reviewed
         const Review = require('../models/Review');
         const existingReview = await Review.findOne({ inquiry: inquiryId });
         if (existingReview) {
-            return res.status(400).json({ success: false, error: 'You have already reviewed this service' });
+            return sendResponse(res, 400, false, 'You have already reviewed this service');
         }
 
         const newReview = await Review.create({
@@ -229,26 +220,25 @@ exports.submitReview = async (req, res) => {
             }
         }
 
-        res.status(201).json({ success: true, message: 'Review submitted successfully', review: newReview });
+        return sendResponse(res, 201, true, 'Review submitted successfully', { review: newReview });
 
     } catch (error) {
-        console.error('Submit Review Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };
 
-exports.getPublicReviews = async (req, res) => {
+exports.getPublicReviews = async (req, res, next) => {
     try {
         const Review = require('../models/Review');
         // Fetch top 6 recent public reviews, populate user name
         const reviews = await Review.find({ isPublic: true })
             .sort({ createdAt: -1 })
             .limit(6)
-            .populate('user', 'username');
+            .populate('user', 'username')
+            .lean();
 
-        res.json({ success: true, reviews });
+        return sendResponse(res, 200, true, 'Public reviews fetched', { reviews });
     } catch (error) {
-        console.error('Get Reviews Error:', error);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(error);
     }
 };

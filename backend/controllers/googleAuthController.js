@@ -1,16 +1,17 @@
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const authService = require('../services/authService');
+const sendResponse = require('../utils/responseHandler');
 
 // Initialize Google Client
 // Using environment variable for security
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-exports.googleLogin = async (req, res) => {
+exports.googleLogin = async (req, res, next) => {
     const { token } = req.body;
 
     if (!token) {
-        return res.status(400).json({ success: false, error: 'Token is required' });
+        return sendResponse(res, 400, false, 'Token is required');
     }
 
     try {
@@ -40,9 +41,7 @@ exports.googleLogin = async (req, res) => {
 
             const jwtToken = authService.generateToken(user);
 
-            return res.json({
-                success: true,
-                message: 'Login successful',
+            return sendResponse(res, 200, true, 'Login successful', {
                 token: jwtToken,
                 user: {
                     _id: user._id,
@@ -67,9 +66,7 @@ exports.googleLogin = async (req, res) => {
 
             const jwtToken = authService.generateToken(user);
 
-            return res.json({
-                success: true,
-                message: 'Registration successful',
+            return sendResponse(res, 200, true, 'Registration successful', {
                 token: jwtToken,
                 user: {
                     _id: user._id,
@@ -85,6 +82,8 @@ exports.googleLogin = async (req, res) => {
         console.error('Google Auth Error:', error);
         console.error('Environment Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Set' : 'Not Set');
         console.error('Token received:', token ? 'Yes' : 'No');
-        return res.status(401).json({ success: false, error: 'Invalid token', details: error.message });
+        // For auth errors, we might want to return 401, but next(error) will default to 500.
+        // Let's use sendResponse for specific auth failure here as it was before.
+        return sendResponse(res, 401, false, 'Invalid token', { details: error.message });
     }
 };

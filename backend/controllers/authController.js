@@ -1,14 +1,15 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const authService = require('../services/authService');
+const sendResponse = require('../utils/responseHandler');
 
 // Register User
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
     const { username, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
         if (existingUser) {
-            return res.status(400).json({ success: false, error: 'Username or Email already exists' });
+            return sendResponse(res, 400, false, 'Username or Email already exists');
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -21,9 +22,7 @@ exports.register = async (req, res) => {
         await newUser.save();
         const token = authService.generateToken(newUser);
 
-        res.json({
-            success: true,
-            message: 'Registration successful',
+        return sendResponse(res, 200, true, 'Registration successful', {
             token,
             user: {
                 _id: newUser._id,
@@ -34,30 +33,27 @@ exports.register = async (req, res) => {
             }
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
 // Login User
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ success: false, error: 'Invalid Credentials' });
+            return sendResponse(res, 400, false, 'Invalid Credentials');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ success: false, error: 'Invalid Credentials' });
+            return sendResponse(res, 400, false, 'Invalid Credentials');
         }
 
         const token = authService.generateToken(user);
 
-        res.json({
-            success: true,
-            message: 'Login successful',
+        return sendResponse(res, 200, true, 'Login successful', {
             token,
             user: {
                 _id: user._id,
@@ -68,13 +64,12 @@ exports.login = async (req, res) => {
             }
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
 // Admin Login
-exports.adminLogin = async (req, res) => {
+exports.adminLogin = async (req, res, next) => {
     const { username, password } = req.body;
     try {
         if (username === 'raj_maurya_7878' && password === '208001@@Raj') {
@@ -94,9 +89,7 @@ exports.adminLogin = async (req, res) => {
             }
 
             const token = authService.generateToken(admin);
-            res.json({
-                success: true,
-                message: 'Admin Login successful',
+            return sendResponse(res, 200, true, 'Admin Login successful', {
                 token,
                 user: {
                     _id: admin._id,
@@ -112,9 +105,7 @@ exports.adminLogin = async (req, res) => {
                 const isMatch = await bcrypt.compare(password, user.password);
                 if (isMatch) {
                     const token = authService.generateToken(user);
-                    return res.json({
-                        success: true,
-                        message: 'Admin Login successful',
+                    return sendResponse(res, 200, true, 'Admin Login successful', {
                         token,
                         user: {
                             _id: user._id,
@@ -126,11 +117,10 @@ exports.adminLogin = async (req, res) => {
                     });
                 }
             }
-            res.status(400).json({ success: false, error: 'Invalid Admin Credentials' });
+            return sendResponse(res, 400, false, 'Invalid Admin Credentials');
         }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: 'Server Error' });
+        next(err);
     }
 };
 
@@ -138,5 +128,5 @@ exports.adminLogin = async (req, res) => {
 exports.logout = (req, res) => {
     // With JWT, logout is client-side (delete token). 
     // Server just returns success.
-    res.json({ success: true, message: 'Logged out successfully' });
+    return sendResponse(res, 200, true, 'Logged out successfully');
 };
