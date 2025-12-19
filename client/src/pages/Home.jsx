@@ -19,7 +19,7 @@ const Home = () => {
             try {
                 const res = await api.get('/');
                 if (res.data.success) {
-                    setServices(res.data.services);
+                    setServices(res.data.data.services);
                 }
             } catch (err) {
                 console.error('Failed to fetch services', err);

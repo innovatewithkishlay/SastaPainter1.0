@@ -20,6 +20,7 @@ router.post('/book', publicLimiter, checkAuth, validateBooking, validate, mainCo
 router.post('/login', authLimiter, validateLogin, validate, authController.login);
 router.post('/register', authLimiter, validateRegister, validate, authController.register);
 router.post('/auth/google', authLimiter, googleAuthController.googleLogin);
+router.get('/check-auth', checkAuth, authController.checkAuth);
 router.get('/logout', authController.logout);
 
 // Admin Auth

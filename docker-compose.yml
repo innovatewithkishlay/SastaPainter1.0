@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/aapkapainter
+      - JWT_SECRET=your_jwt_secret_key_change_in_production
+      - NODE_ENV=production
+      - CLIENT_URL=http://localhost:5173 
+      # Note: For production, CLIENT_URL should be the actual domain or Nginx port
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  # Frontend Service (for production build)
+  # client:
+  #   build: ./client
+  #   ports:
+  #     - "80:80"
+  #   networks:
+  #     - app-network
+
+  # MongoDB Service
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

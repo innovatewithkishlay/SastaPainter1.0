@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
 
                 // Actually, let's update check-auth to work with token!
                 const res = await api.get('/check-auth');
-                if (res.data.isAuthenticated && res.data.user) {
-                    setUser(res.data.user);
+                if (res.data.data.isAuthenticated && res.data.data.user) {
+                    setUser(res.data.data.user);
                 } else {
                     localStorage.removeItem('token');
                     setUser(null);

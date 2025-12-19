@@ -26,7 +26,7 @@ const AdminDashboard = () => {
         try {
             const res = await api.get('/admin/stats', { triggerLoader: true });
             if (res.data.success) {
-                setStats(res.data.stats);
+                setStats(res.data.data.stats);
             }
         } catch (err) {
             console.error(err);

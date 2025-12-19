@@ -38,10 +38,10 @@ const Login = () => {
 
             if (res.data.success) {
                 // 3. Store Token
-                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('token', res.data.data.token);
 
                 // 4. Update App State
-                setUser(res.data.user);
+                setUser(res.data.data.user);
 
                 // 4. Redirect
                 navigate(from, { replace: true });
@@ -66,11 +66,11 @@ const Login = () => {
             // 1. Attempt Regular Login
             let res = await api.post('/login', formData);
             if (res.data.success) {
-                localStorage.setItem('token', res.data.token);
-                setUser(res.data.user);
+                localStorage.setItem('token', res.data.data.token);
+                setUser(res.data.data.user);
 
                 // Route based on role
-                if (res.data.user.isAdmin) {
+                if (res.data.data.user.isAdmin) {
                     navigate('/admin/dashboard');
                 } else {
                     navigate(from, { replace: true });
@@ -82,8 +82,8 @@ const Login = () => {
             try {
                 const adminRes = await api.post('/admin/login', { username: formData.email, password: formData.password });
                 if (adminRes.data.success) {
-                    localStorage.setItem('token', adminRes.data.token);
-                    setUser(adminRes.data.user);
+                    localStorage.setItem('token', adminRes.data.data.token);
+                    setUser(adminRes.data.data.user);
                     navigate('/admin/dashboard');
                     return;
                 }
@@ -91,7 +91,7 @@ const Login = () => {
                 // Ignore fallback error
             }
 
-            setError(err.response?.data?.error || 'Invalid Credentials');
+            setError(err.response?.data?.message || err.response?.data?.error || 'Invalid Credentials');
         } finally {
             setLoading(false);
         }

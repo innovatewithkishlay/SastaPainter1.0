@@ -11,7 +11,7 @@ const TestimonialsSection = () => {
             try {
                 const res = await api.get('/reviews/public');
                 if (res.data.success) {
-                    setReviews(res.data.reviews);
+                    setReviews(res.data.data.reviews);
                 }
             } catch (err) {
                 console.error('Failed to fetch reviews', err);

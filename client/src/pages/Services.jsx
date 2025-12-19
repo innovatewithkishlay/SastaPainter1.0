@@ -14,7 +14,7 @@ const Services = () => {
             try {
                 const res = await api.get('/services');
                 if (res.data.success) {
-                    setServices(res.data.services);
+                    setServices(res.data.data.services);
                 }
             } catch (err) {
                 console.error(err);

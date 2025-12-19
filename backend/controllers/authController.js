@@ -41,7 +41,10 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email });
+        // Check for user by email OR username (since frontend sends both in 'email' field)
+        const user = await User.findOne({
+            $or: [{ email: email }, { username: email }]
+        });
         if (!user) {
             return sendResponse(res, 400, false, 'Invalid Credentials');
         }
@@ -125,6 +128,19 @@ exports.adminLogin = async (req, res, next) => {
 };
 
 // Logout
+exports.checkAuth = async (req, res, next) => {
+    try {
+        if (req.user) {
+            const user = await User.findById(req.user.id).select('-password');
+            return sendResponse(res, 200, true, 'Authenticated', { isAuthenticated: true, user });
+        } else {
+            return sendResponse(res, 200, true, 'Not Authenticated', { isAuthenticated: false, user: null });
+        }
+    } catch (err) {
+        next(err);
+    }
+};
+
 exports.logout = (req, res) => {
     // With JWT, logout is client-side (delete token). 
     // Server just returns success.

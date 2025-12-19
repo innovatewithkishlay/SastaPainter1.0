@@ -27,7 +27,7 @@ const AdminPainters = () => {
         try {
             const res = await api.get('/admin/painters', { triggerLoader: true });
             if (res.data.success) {
-                setPainters(res.data.painters);
+                setPainters(res.data.data.painters);
             }
         } catch (err) {
             console.error(err);

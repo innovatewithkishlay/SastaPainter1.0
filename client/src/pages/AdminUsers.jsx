@@ -23,7 +23,7 @@ const AdminUsers = () => {
         try {
             const res = await api.get(`/admin/users?search=${searchQuery}&role=${roleFilter}`, { triggerLoader: true });
             if (res.data.success) {
-                setUsers(res.data.users);
+                setUsers(res.data.data.users);
             }
         } catch (err) {
             console.error(err);
