@@ -55,8 +55,15 @@ exports.googleLogin = async (req, res, next) => {
 
         } else {
             // 3. User does not exist -> Register new user
+            let username = name;
+            let userExists = await User.findOne({ username });
+            if (userExists) {
+                // Append random 4-digit number to make username unique
+                username = `${name.replace(/\s+/g, '')}${Math.floor(1000 + Math.random() * 9000)}`;
+            }
+
             user = new User({
-                username: name, // Google name as username
+                username: username, // Unique username
                 email: email,
                 authProvider: 'google',
                 profilePicture: picture,
@@ -85,6 +92,10 @@ exports.googleLogin = async (req, res, next) => {
         console.error('Token received:', token ? 'Yes' : 'No');
         // For auth errors, we might want to return 401, but next(error) will default to 500.
         // Let's use sendResponse for specific auth failure here as it was before.
-        return sendResponse(res, 401, false, 'Invalid token', { details: error.message });
+        console.error('Google Auth Verification Failed:', error);
+        return sendResponse(res, 401, false, 'Google Authentication Failed', {
+            error: error.message,
+            clientIdConfigured: !!config.googleClientId
+        });
     }
 };

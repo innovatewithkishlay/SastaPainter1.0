@@ -39,7 +39,7 @@ const AdminBookings = () => {
                 }
             });
             if (res.data.success) {
-                setData(activeTab === 'bookings' ? res.data.inquiries : res.data.siteVisits);
+                setData(activeTab === 'bookings' ? res.data.data.inquiries : res.data.data.siteVisits);
             }
         } catch (err) {
             console.error(err);

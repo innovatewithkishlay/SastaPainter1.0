@@ -28,8 +28,7 @@ exports.userLimiter = rateLimit({
     max: 200,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        // Use user ID if available (from requireAuth middleware), otherwise fallback to IP
+    keyGenerator: (req, res) => {
         return req.user ? req.user.id : req.ip;
     },
     message: createRateLimitResponse('Too many requests from this account, please try again later.')
@@ -42,7 +41,7 @@ exports.adminLimiter = rateLimit({
     max: 100,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
+    keyGenerator: (req, res) => {
         return req.user ? req.user.id : req.ip;
     },
     message: createRateLimitResponse('Too many admin requests, please slow down.')

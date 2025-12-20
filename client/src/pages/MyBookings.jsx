@@ -24,8 +24,8 @@ const MyBookings = () => {
         try {
             const res = await api.get('/user/my-bookings', { triggerLoader: true });
             if (res.data.success) {
-                setBookings(res.data.inquiries || []);
-                setSiteVisits(res.data.siteVisits || []);
+                setBookings(res.data.data.inquiries || []);
+                setSiteVisits(res.data.data.siteVisits || []);
             }
         } catch (err) {
             console.error("Fetch Data Error:", err);
