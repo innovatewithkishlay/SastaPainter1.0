@@ -29,8 +29,9 @@ const helmet = require('helmet');
 // We also need to disable COEP (Cross-Origin-Embedder-Policy) or set it to unsafe-none for Google scripts to work
 app.use(
     helmet({
-        crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+        crossOriginOpenerPolicy: false,
         crossOriginEmbedderPolicy: false,
+        referrerPolicy: { policy: "origin-when-cross-origin" }, // Better for Google Auth
     })
 );
 

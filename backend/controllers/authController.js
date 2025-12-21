@@ -103,7 +103,10 @@ exports.adminLogin = async (req, res, next) => {
                 }
             });
         } else {
-            const user = await User.findOne({ username });
+            // Check for user by username OR email
+            const user = await User.findOne({
+                $or: [{ username: username }, { email: username }]
+            });
             if (user && user.isAdmin) {
                 const isMatch = await bcrypt.compare(password, user.password);
                 if (isMatch) {

@@ -9,7 +9,7 @@ const config = require('../config');
 const client = new OAuth2Client(config.googleClientId);
 
 exports.googleLogin = async (req, res, next) => {
-    const { token } = req.body;
+    const { token, type } = req.body;
 
     if (!token) {
         return sendResponse(res, 400, false, 'Token is required');
@@ -18,17 +18,32 @@ exports.googleLogin = async (req, res, next) => {
     try {
         let email, name, picture, googleId;
 
-        // Verify ID Token
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: config.googleClientId,
-        });
-        const payload = ticket.getPayload();
+        if (type === 'access_token') {
+            // Verify Access Token (from useGoogleLogin)
+            const axios = require('axios');
+            const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
 
-        email = payload.email;
-        name = payload.name;
-        picture = payload.picture;
-        googleId = payload.sub;
+            const payload = userInfoResponse.data;
+            email = payload.email;
+            name = payload.name;
+            picture = payload.picture;
+            googleId = payload.sub;
+
+        } else {
+            // Verify ID Token (from Google One Tap / <GoogleLogin />)
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: config.googleClientId,
+            });
+            const payload = ticket.getPayload();
+
+            email = payload.email;
+            name = payload.name;
+            picture = payload.picture;
+            googleId = payload.sub;
+        }
 
         // 2. Check if user exists
         let user = await User.findOne({ email });
@@ -88,11 +103,6 @@ exports.googleLogin = async (req, res, next) => {
 
     } catch (error) {
         console.error('Google Auth Error:', error);
-        console.error('Environment Client ID:', config.googleClientId ? 'Set' : 'Not Set');
-        console.error('Token received:', token ? 'Yes' : 'No');
-        // For auth errors, we might want to return 401, but next(error) will default to 500.
-        // Let's use sendResponse for specific auth failure here as it was before.
-        console.error('Google Auth Verification Failed:', error);
         return sendResponse(res, 401, false, 'Google Authentication Failed', {
             error: error.message,
             clientIdConfigured: !!config.googleClientId

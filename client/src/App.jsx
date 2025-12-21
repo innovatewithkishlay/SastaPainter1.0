@@ -41,6 +41,8 @@ import NotFound from './pages/NotFound';
 import { AuthProvider } from './hooks/useAuth.jsx';
 import useAuth from './hooks/useAuth.jsx';
 
+import GoogleOneTap from './components/GoogleOneTap';
+
 // Helper component for Protected Routes
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useAuth();
@@ -57,6 +59,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 function AppContent() {
   return (
     <>
+      <GoogleOneTap />
       <ScrollToTop />
       <Routes>
         {/* Admin Routes - No Global Layout */}

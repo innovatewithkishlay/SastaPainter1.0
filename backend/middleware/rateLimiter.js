@@ -28,9 +28,7 @@ exports.userLimiter = rateLimit({
     max: 200,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req, res) => {
-        return req.user ? req.user.id : req.ip;
-    },
+    // keyGenerator removed to fix ERR_ERL_KEY_GEN_IPV6. Defaults to IP based limiting.
     message: createRateLimitResponse('Too many requests from this account, please try again later.')
 });
 
@@ -41,9 +39,7 @@ exports.adminLimiter = rateLimit({
     max: 100,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req, res) => {
-        return req.user ? req.user.id : req.ip;
-    },
+    // keyGenerator removed to fix ERR_ERL_KEY_GEN_IPV6. Defaults to IP based limiting.
     message: createRateLimitResponse('Too many admin requests, please slow down.')
 });
 

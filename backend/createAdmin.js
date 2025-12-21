@@ -11,14 +11,19 @@ mongoose.connect('mongodb://127.0.0.1:27017/aapkapainter', {
 
 const createAdmin = async () => {
     try {
-        const adminEmail = 'admin@aapkapainter.com';
-        const password = 'adminpassword123';
+        const adminEmail = 'kishlay@developer.sastapainter.com';
+        const password = 'kishlay123';
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        let admin = await User.findOne({ email: adminEmail });
+        // Find by Email OR Username to avoid duplicate key errors
+        let admin = await User.findOne({
+            $or: [{ email: adminEmail }, { username: 'kishlay' }]
+        });
 
         if (admin) {
-            console.log('Admin user found. Updating password and privileges...');
+            console.log(`User found (ID: ${admin._id}). Updating credentials...`);
+            admin.email = adminEmail; // Ensure email is updated
+            admin.username = 'kishlay'; // Ensure username is set
             admin.password = hashedPassword;
             admin.isAdmin = true;
             await admin.save();
@@ -26,7 +31,7 @@ const createAdmin = async () => {
         } else {
             console.log('Creating new admin user...');
             const newAdmin = new User({
-                username: 'Admin',
+                username: 'kishlay',
                 email: adminEmail,
                 password: hashedPassword,
                 isAdmin: true
