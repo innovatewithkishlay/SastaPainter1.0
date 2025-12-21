@@ -87,6 +87,8 @@
     height: auto;
     display: block;
     object-fit: cover;
+    transform: scale(1.1);
+    /* Zoomed as requested */
 }
 
 @media (max-width: 1024px) {
@@ -273,6 +275,8 @@
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
+    color: #ffffff;
+    /* Fixed text color */
 }
 
 .cta-subtext {

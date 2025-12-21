@@ -116,6 +116,7 @@ const BlogSection = () => {
                                     fontWeight: "800",
                                     marginBottom: "1rem",
                                     letterSpacing: "0.5px",
+                                    color: "white",
                                 }}
                             >
                                 Ready to Transform Your Home?
