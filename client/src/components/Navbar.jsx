@@ -26,6 +26,10 @@ const NAV_ITEMS = [
     { label: 'Contact', path: '/#contact' },
     { label: 'Interior Painting', path: '/services/Interior-Painting' },
     { label: 'Exterior Painting', path: '/services/Exterior-Painting' },
+    { label: 'Rental Painting', path: '/services/Rental-Painting' },
+    { label: 'Waterproofing', path: '/services/Waterproofing' },
+    { label: 'Wood Finishes', path: '/services/Wood-Finishes' },
+    { label: 'Texture Painting', path: '/services/Texture-Painting' },
 
 
 ];
