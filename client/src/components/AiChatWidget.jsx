@@ -80,7 +80,7 @@ AI RESPONSE RULES
 const AiChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
-        { id: 1, text: "Hi! I'm your SastaPainter AI assistant. I'm powered by Google Gemini. Ask me anything about painting!", sender: 'ai' }
+        { id: 1, text: "Hi! I'm your SastaPainter AI assistant.Ask me anything about painting!", sender: 'ai' }
     ]);
     const [inputText, setInputText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
