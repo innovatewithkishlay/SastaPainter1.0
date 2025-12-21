@@ -253,7 +253,25 @@
 
 .link-signup:hover {
     background-color: #1e293b;
-    color: #fff;
+}
+
+.nav-links {
+    display: none;
+    /* Hidden by default framework, handled by specific mobile menu overlay */
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-right: 1.5rem;
+}
+
+.nav-item {
+    position: relative;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #475569;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+    white-space: nowrap;
 }
 
 /* Mobile Toggle */
@@ -285,7 +303,14 @@
 @media (min-width: 1024px) {
     .nav-links {
         display: flex;
-        /* Show flex on desktop */
+        align-items: center;
+        gap: 0;
+        /* Reset gap to rely on margins for robustness */
+    }
+
+    /* Robust spacing using margins to prevent squashing */
+    .nav-item+.nav-item {
+        margin-left: 1.5rem;
     }
 }
 
