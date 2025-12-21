@@ -60,6 +60,7 @@ exports.postBooking = async (req, res, next) => {
 exports.postSiteVisit = async (req, res, next) => {
     try {
         const { name, phone, city } = req.body;
+        console.log('DEBUG: postSiteVisit called', { name, phone, city, user: req.user });
 
         if (!name || !phone || !city) {
             return sendResponse(res, 400, false, 'Please fill in all fields.');
@@ -72,9 +73,11 @@ exports.postSiteVisit = async (req, res, next) => {
             user: req.user ? req.user.id : null
         });
 
-        await newSiteVisit.save();
+        const savedVisit = await newSiteVisit.save();
+        console.log('DEBUG: SiteVisit saved', savedVisit);
         return sendResponse(res, 201, true, 'Site Visit Booked Successfully!');
     } catch (err) {
+        console.error('DEBUG: postSiteVisit Error', err);
         next(err);
     }
 };
@@ -102,10 +105,13 @@ exports.updateInquiryStatus = async (req, res, next) => {
 // User Dashboard Methods
 exports.getMyBookings = async (req, res, next) => {
     try {
+        console.log('DEBUG: getMyBookings called for user', req.user.id);
         const inquiries = await Inquiry.find({ user: req.user.id }).sort({ createdAt: -1 }).lean();
         const siteVisits = await SiteVisit.find({ user: req.user.id }).sort({ createdAt: -1 }).lean();
+        console.log('DEBUG: Found bookings', { inquiriesCount: inquiries.length, siteVisitsCount: siteVisits.length });
         return sendResponse(res, 200, true, 'User bookings fetched', { inquiries, siteVisits });
     } catch (err) {
+        console.error('DEBUG: getMyBookings Error', err);
         next(err);
     }
 };

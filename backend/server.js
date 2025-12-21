@@ -80,7 +80,8 @@ app.use('/api/v1/admin', adminRoutes);
 // Better to just update frontend to use /api/v1.
 // For now, I will also mount them at /api for immediate compatibility while I update frontend in Phase 3.
 app.use('/api', publicRoutes);
-app.use('/api', userRoutes); // This might conflict if paths overlap, but they don't really.
+app.use('/api', userRoutes);
+app.use('/api/user', userRoutes); // Fix for production 404: explicitly mount at /api/user
 app.use('/api/admin', adminRoutes);
 
 // Auth Check Endpoint
