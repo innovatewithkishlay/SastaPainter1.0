@@ -69,7 +69,7 @@ const TexturePainting = () => {
         <div className="interior-painting-page">
             <section
                 className="interior-banner"
-                style={{ backgroundImage: `url('/images/texture-painting-banner.webp')` }}
+                style={{ backgroundImage: `url('/images/texture-painting-banner.avif')` }}
             >
                 <div className="interior-banner-content">
                     <motion.div

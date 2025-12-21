@@ -68,7 +68,7 @@ const WoodFinishes = () => {
         <div className="interior-painting-page">
             <section
                 className="interior-banner"
-                style={{ backgroundImage: `url('/images/wood-finishes-banner.webp')` }}
+                style={{ backgroundImage: `url('/images/wood-finishes-banner.avif')` }}
             >
                 <div className="interior-banner-content">
                     <motion.div

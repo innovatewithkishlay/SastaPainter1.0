@@ -68,7 +68,7 @@ const RentalPainting = () => {
         <div className="interior-painting-page">
             <section
                 className="interior-banner"
-                style={{ backgroundImage: `url('/images/rental-painting-banner.webp')` }}
+                style={{ backgroundImage: `url('/images/rental-painting-banner.jpg')` }}
             >
                 <div className="interior-banner-content">
                     <motion.div

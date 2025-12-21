@@ -68,7 +68,7 @@ const Waterproofing = () => {
         <div className="interior-painting-page">
             <section
                 className="interior-banner"
-                style={{ backgroundImage: `url('/images/waterproofing-banner.webp')` }}
+                style={{ backgroundImage: `url('/images/waterproofing-banner.avif')` }}
             >
                 <div className="interior-banner-content">
                     <motion.div
