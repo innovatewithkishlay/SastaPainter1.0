@@ -24,12 +24,12 @@ const NAV_ITEMS = [
     // { label: 'Estimate', path: '/estimate' },
     // { label: 'Mobile App', path: '/android-app' },
     { label: 'Contact', path: '/#contact' },
-    { label: 'Interior Painting', path: '/services/Interior-Painting' },
-    { label: 'Exterior Painting', path: '/services/Exterior-Painting' },
-    { label: 'Rental Painting', path: '/services/Rental-Painting' },
+    { label: 'Interior', path: '/services/Interior-Painting' },
+    { label: 'Exterior', path: '/services/Exterior-Painting' },
+    { label: 'Rental', path: '/services/Rental-Painting' },
     { label: 'Waterproofing', path: '/services/Waterproofing' },
     { label: 'Wood Finishes', path: '/services/Wood-Finishes' },
-    { label: 'Texture Painting', path: '/services/Texture-Painting' },
+    { label: 'Texture', path: '/services/Texture-Painting' },
 
 
 ];
