@@ -119,7 +119,7 @@ const Navbar = () => {
             <div className="nav-container">
                 {/* Logo */}
                 <Link to="/" className="nav-logo" aria-label="SastaPainter Home" onClick={() => window.scrollTo(0, 0)}>
-                    <img src="/images/sasta-painter-icon.jpeg" alt="SastaPainter Logo" style={{ height: '80px', width: '130px', maxHeight: '100%' }} />
+                    <img src="/images/sasta-painter-icon.jpeg" alt="SastaPainter Logo" style={{ height: '50px', width: 'auto', maxHeight: '100%' }} />
                 </Link>
 
                 {/* Desktop Nav Links */}

@@ -13,7 +13,8 @@
     z-index: 1000;
     background-color: #ffffff;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    padding: 0 1.5rem;
+    padding: 0 1rem;
+    /* Reduced padding */
     height: 80px;
     /* Fixed height for consistency */
     display: flex;
@@ -56,17 +57,23 @@
     display: none;
     /* Hidden on mobile by default */
     align-items: center;
-    gap: 2.5rem;
+    gap: 1rem;
+    /* Reduced from 2.5rem */
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
 }
 
 .nav-item {
     position: relative;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
+    /* Reduced from 0.95rem */
     font-weight: 500;
     color: #475569;
     padding: 0.5rem 0;
     transition: color 0.2s ease;
+    white-space: nowrap;
+    /* Prevent text wrapping */
 }
 
 .nav-item:hover,
@@ -106,6 +113,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    white-space: nowrap;
 }
 
 .btn-book:hover {
