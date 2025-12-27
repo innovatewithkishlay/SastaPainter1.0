@@ -1,6 +1,6 @@
 # Sasta Painter 2.0
 
-A comprehensive platform for booking painting services, managing projects, and connecting with professional painters.
+A comprehensive platform for booking painting services, managing projects, and connecting with professional painters With Professional Admin Panel.
 
 ## Features
 - **User Booking System**: Book painting services and site visits.
